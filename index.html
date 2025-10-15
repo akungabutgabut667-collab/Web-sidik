@@ -1,0 +1,230 @@
+<!doctype html>
+
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Surat An-Nas — Baca & Audio</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700;800&family=Scheherazade+New&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#fff5f8; /* light green*/
+      --card:#ffeef6;
+      --accent:#ff5c9e;
+      --muted:#6b6b6b;
+      --glass: rgba(255,255,255,0.6);
+      --radius:16px;
+      font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; min-height:100vh; background:linear-gradient(180deg,var(--bg),#fff); display:flex; align-items:center; justify-content:center; padding:28px;
+    }
+    .wrap{width:100%;max-width:920px;background:var(--card);border-radius:20px;padding:28px;box-shadow:0 10px 30px rgba(0,0,0,0.08)}
+    header{display:flex;gap:18px;align-items:center}
+    .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#ff9ac1);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:22px}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:6px 0 0;color:var(--muted)}.grid{display:grid;grid-template-columns:1fr 360px;gap:20px;margin-top:20px}
+@media (max-width:880px){.grid{grid-template-columns:1fr} .player-box{order:-1}}
+
+.card{background:var(--glass);padding:18px;border-radius:14px}
+
+/* surat box */
+.arab{font-family:'Scheherazade New', 'Amiri', serif;font-size:36px;line-height:1.35;text-align:right;padding:14px;border-radius:10px;background:rgba(255,255,255,0.7)}
+.translit{margin-top:12px;color:var(--muted);font-size:15px}
+.terjemah{margin-top:12px;font-size:15px;color:#2b2b2b}
+
+/* player */
+.player-box{display:flex;flex-direction:column;gap:14px}
+.cover{height:160px;border-radius:12px;background:linear-gradient(135deg,#ffd9e9,#fff);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cover .title{font-weight:700;color:#a3004b}
+
+.controls{display:flex;align-items:center;gap:12px}
+.btn{background:var(--accent);color:white;border:none;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 6px 14px rgba(255,92,158,0.18)}
+.btn.secondary{background:white;color:var(--accent);border:1px solid rgba(255,92,158,0.15)}
+.progress{flex:1;height:10px;background:rgba(0,0,0,0.07);border-radius:8px;position:relative;overflow:hidden}
+.progress > i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--accent),#ff8fb4)}
+.time{font-size:13px;color:var(--muted);min-width:54px;text-align:right}
+.file-input{font-size:13px;color:var(--muted)}
+
+.small{font-size:13px;color:var(--muted)}
+footer.note{margin-top:14px;font-size:12px;color:var(--muted);text-align:center}
+
+/* responsive text sizes */
+@media (max-width:420px){ .arab{font-size:28px} }
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">QS</div>
+      <div>
+        <h1>Surat An-Nâs — Pembacaan & Audio</h1>
+        <p class="lead">Tampilan interaktif: baca, dengarkan, dan unduh audio. Cocok untuk belajar dan hafalan.</p>
+      </div>
+    </header><div class="grid">
+  <main>
+    <div class="card">
+      <div class="arab" id="arab-text">قُلْ أَعُوذُ بِرَبِّ النَّاسِ<p></p>
+
+مَلِكِ النَّاسِ<p></p> <p></p>إِلَٰهِ النَّاسِ <p></p>مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ<p></p> الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ<p></p> مِنَ الْجِنَّةِ وَالنَّاسِ</div>
+
+<div class="translit">Transliterasi: Qul a'ûdzu bi rabbi n-nâs, maliki n-nâs, ilâhi n-nâs. Min sharri l-waswâsi l-khannâs, alladhî yuwaswisu fî sudûri n-nâs, minal-jinnati wan-nâs.</div>
+
+      <div class="terjemah">Terjemahan (Indonesia): Katakanlah: "Aku berlindung kepada Tuhan (yang memelihara dan menguasai) manusia. Raja manusia. Sembahan manusia. Dari kejahatan (bisikan) setan yang biasa bersembunyi, yang membisikkan (kejahatan) ke dalam dada manusia, dari (golongan) jin dan manusia."</div>
+
+      <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn secondary" id="zoom-in">Perbesar Huruf</button>
+        <button class="btn secondary" id="zoom-out">Perkecil Huruf</button>
+        <button class="btn secondary" id="toggle-arab">Tampilkan/ Sembunyikan Arab</button>
+        <button class="btn secondary" id="toggle-terjemah">Tampilkan/ Sembunyikan Terjemah</button>
+      </div>
+    </div>
+  </main>
+
+  <aside class="player-box">
+    <div class="card">
+      <div class="cover">
+        <div style="text-align:center">
+          <div class="title">Surat An-Nâs</div>
+          <div class="small">QS. An-Nâs — 6 ayat</div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:10px;align-items:center;">
+        <button class="btn" id="play">Play</button>
+        <button class="btn secondary" id="stop">Stop</button>
+        <div class="progress" id="progress" title="Klik untuk cari posisi">
+          <i></i>
+        </div>
+        <div class="time" id="time">0:00</div>
+      </div>
+
+      <div style="margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+        <div class="file-input">
+          <label for="audio-file">Audio lokal: </label>
+          <input id="audio-file" type="file" accept="audio/*">
+        </div>
+        <div style="text-align:right">
+          <button class="btn secondary" id="loop">Loop</button>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:8px;align-items:center;justify-content:space-between">
+        <div class="small">Sumber audio: letakkan file <code>an-nas.mp3</code> di folder yang sama atau gunakan tombol "Audio lokal"</div>
+        <a id="download-audio" class="btn secondary" href="#" download="an-nas.mp3">Unduh</a>
+      </div>
+    </div>
+
+    <div class="card small" style="text-align:center">
+      <div><strong>Petunjuk singkat</strong></div>
+      <div style="margin-top:6px">1) Untuk menggunakan audio lokal, pilih file MP3 lewat tombol. 2) Klik progress bar untuk melompat. 3) Gunakan tombol Perbesar/Perkecil huruf jika ingin membantu bacaan.</div>
+    </div>
+  </aside>
+</div>
+
+<footer class="note">Kode ini buatan otomatis — bisa disesuaikan. Jika mau, saya bisa pisahkan ke file terpisah (index.html + script.js + style.css).</footer>
+
+<!-- hidden audio element; default src points to "an-nas.mp3" in same folder -->
+<audio id="audio" src="an-nas.mp3" preload="metadata"></audio>
+
+  </div>  <script>
+    // Basic player controls
+    const audio = document.getElementById('audio');
+    const playBtn = document.getElementById('play');
+    const stopBtn = document.getElementById('stop');
+    const progress = document.getElementById('progress');
+    const progressBar = progress.querySelector('i');
+    const timeLabel = document.getElementById('time');
+    const fileInput = document.getElementById('audio-file');
+    const downloadBtn = document.getElementById('download-audio');
+    const loopBtn = document.getElementById('loop');
+
+    let isLoop = false;
+
+    function formatTime(s){
+      if (isNaN(s)) return '0:00';
+      const m = Math.floor(s/60);
+      const sec = Math.floor(s%60).toString().padStart(2,'0');
+      return `${m}:${sec}`;
+    }
+
+    playBtn.addEventListener('click', ()=>{
+      if (audio.paused){
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    });
+
+    stopBtn.addEventListener('click', ()=>{
+      audio.pause();
+      audio.currentTime = 0;
+    });
+
+    audio.addEventListener('play', ()=>{playBtn.textContent='Pause'});
+    audio.addEventListener('pause', ()=>{playBtn.textContent='Play'});
+
+    audio.addEventListener('timeupdate', ()=>{
+      const pct = (audio.currentTime / (audio.duration || 1)) * 100;
+      progressBar.style.width = pct + '%';
+      timeLabel.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+    });
+
+    progress.addEventListener('click', (e)=>{
+      const rect = progress.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const pct = x / rect.width;
+      audio.currentTime = pct * audio.duration;
+    });
+
+    fileInput.addEventListener('change', (e)=>{
+      const f = e.target.files && e.target.files[0];
+      if (!f) return;
+      const url = URL.createObjectURL(f);
+      audio.src = url;
+      downloadBtn.href = url;
+      audio.play();
+    });
+
+    // default download link points to same-folder file
+    downloadBtn.href = 'an-nas.mp3';
+
+    loopBtn.addEventListener('click', ()=>{
+      isLoop = !isLoop; audio.loop = isLoop;
+      loopBtn.textContent = isLoop ? 'Loop: ON' : 'Loop';
+    });
+
+    // zoom controls for arabic text
+    const arabBox = document.getElementById('arab-text');
+    const zoomIn = document.getElementById('zoom-in');
+    const zoomOut = document.getElementById('zoom-out');
+    const toggleArab = document.getElementById('toggle-arab');
+    const toggleTerjemah = document.getElementById('toggle-terjemah');
+
+    let arabSize = 36;
+    zoomIn.addEventListener('click', ()=>{ arabSize = Math.min(64, arabSize+4); arabBox.style.fontSize = arabSize + 'px'; });
+    zoomOut.addEventListener('click', ()=>{ arabSize = Math.max(20, arabSize-4); arabBox.style.fontSize = arabSize + 'px'; });
+    toggleArab.addEventListener('click', ()=>{ arabBox.style.display = arabBox.style.display === 'none' ? 'block' : 'none'; });
+    toggleTerjemah.addEventListener('click', ()=>{
+      const ter = document.querySelector('.terjemah');
+      ter.style.display = ter.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // try to update time label when metadata loaded
+    audio.addEventListener('loadedmetadata', ()=>{
+      timeLabel.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+    });
+
+    // accessibility: space toggles play/pause when focused on play
+    playBtn.addEventListener('keydown', (e)=>{ if (e.code==='Space') { e.preventDefault(); playBtn.click(); } });
+
+    // initial small safety: if default file not present, user can upload
+    audio.addEventListener('error', ()=>{
+      // do not spam — just hint in console
+      console.warn('Audio default (an-nas.mp3) tidak ditemukan. Silakan gunakan tombol "Audio lokal" untuk memuat file.');
+    });
+  </script></body>
+</html>
